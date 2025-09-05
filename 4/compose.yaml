@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:15
+    env_file: .env
+    secrets:
+      - db_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "127.0.0.1:5433:5432"
+
+  debian_psql:
+    build: ./debian_psql
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGUSER: ${POSTGRES_USER}
+      PGDATABASE: ${POSTGRES_DB}
+      PGHOST: db
+      PGPORT: 5432
+    secrets:
+      - db_password
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      export PGPASSWORD="$$(cat /run/secrets/db_password)" &&
+      exec psql -h "$PGHOST" -U "$PGUSER" -d "$PGDATABASE" -c "SELECT 1;"
+
+secrets:
+  db_password:
+    file: ./db_password.txt

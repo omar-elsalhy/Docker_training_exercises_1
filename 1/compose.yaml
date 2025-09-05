@@ -1,0 +1,7 @@
+services:
+  hello:
+    build: ./image
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./msg.txt:/opt/msg.txt:ro
