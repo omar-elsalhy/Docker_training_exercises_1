@@ -7,6 +7,7 @@ The goal is to understand containerization, volumes, networks, secrets, environm
 
 ## 🗂 Repository Structure
 
+```txt
 ├─ 1
 │ ├─ compose.yaml
 │ ├─ msg.txt
@@ -28,7 +29,7 @@ The goal is to understand containerization, volumes, networks, secrets, environm
 ├─ .env
 └─ debian_psql/
 └─ Dockerfile
-
+```
 
 ---
 
@@ -70,7 +71,6 @@ cd 1
 docker compose up --build
 
 # Repeat for exercises 2–4
-
 ```
 
 ---
@@ -82,3 +82,5 @@ All ports are exposed only to localhost.
 Secrets and environment variables are used to secure credentials.
 
 Volumes are used to persist data and allow message/file modification without rebuilding images.
+
+---
